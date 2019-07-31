@@ -109,7 +109,7 @@ sh = dash.overrideAttrs (_: rec {
        --enable-sysvshm
        --enable-opcache
        --enable-magic-quotes
-       --with-config-file-scan-dir=/etc/php.d
+       --with-config-file-scan-dir=/run/php.d
        --with-pcre-regex=${pcre.dev} PCRE_LIBDIR=${pcre}
        --with-imap=${uwimap}
        --with-imap-ssl
@@ -219,10 +219,11 @@ dockerArgHints = {
     init = false;
     read_only = true;
     network = "host";
-    environment = { HTTPD_PORT = "$SOCKET_HTTP_PORT"; PHP_INI_SCAN_DIR = ":${rootfs}/etc/phpsec/$SECURITY_LEVEL"; };
+    environment = { HTTPD_PORT = "$SOCKET_HTTP_PORT"; PHP_INI_SCAN_DIR = ":${rootfs}/etc/phpsec/$SECURITY_LEVEL"; PHP_SECURITY = "${rootfs}/etc/phpsec/$SECURITY_LEVEL"; };
     tmpfs = [
       "/tmp:mode=1777"
       "/run/bin:exec,suid"
+      "/run/php.d:mode=644"
     ];
     ulimits = [
       { name = "stack"; hard = -1; soft = -1; }
