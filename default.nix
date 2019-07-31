@@ -215,11 +215,12 @@ php54Packages = {
       libstdcxx = gcc-unwrapped.lib;
   };
 
+# PHP_INI_SCAN_DIR = ":${rootfs}/etc/phpsec/$SECURITY_LEVEL";
 dockerArgHints = {
     init = false;
     read_only = true;
     network = "host";
-    environment = { HTTPD_PORT = "$SOCKET_HTTP_PORT"; PHP_INI_SCAN_DIR = ":${rootfs}/etc/phpsec/$SECURITY_LEVEL"; PHP_SECURITY = "${rootfs}/etc/phpsec/$SECURITY_LEVEL"; };
+    environment = { HTTPD_PORT = "$SOCKET_HTTP_PORT"; PHP_SECURITY = "${rootfs}/etc/phpsec/$SECURITY_LEVEL"; };
     tmpfs = [
       "/tmp:mode=1777"
       "/run/bin:exec,suid"
