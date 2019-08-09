@@ -9,7 +9,7 @@ let
 
 inherit (builtins) concatMap getEnv toJSON;
 inherit (dockerTools) buildLayeredImage;
-inherit (lib) concatMapStringsSep firstNChars flattenSet dockerRunCmd buildPhpPackage mkRootfs;
+inherit (lib) concatMapStringsSep firstNChars flattenSet dockerRunCmd mkRootfs;
 inherit (lib.attrsets) collect isDerivation;
 inherit (stdenv) mkDerivation;
 
@@ -27,7 +27,8 @@ sh = dash.overrideAttrs (_: rec {
   rootfs = mkRootfs {
       name = "apache2-php54-rootfs";
       src = ./rootfs;
-      inherit curl coreutils findutils apacheHttpdmpmITK apacheHttpd mjHttpErrorPages php54 postfix s6 execline mjperl5Packages;
+      inherit curl coreutils findutils apacheHttpdmpmITK apacheHttpd mjHttpErrorPages php54 postfix s6 execline;
+      mjperl5Packages = mjperl5lib;
       ioncube = ioncube.v54;
       zendguard = zendguard54;
       zendopcache = php54Packages.zendopcache;
@@ -81,33 +82,9 @@ pkgs.dockerTools.buildLayeredImage rec {
     postfix
     sh
     coreutils
-    perl
-         perlPackages.TextTruncate
-         perlPackages.TimeLocal
-         perlPackages.PerlMagick
-         perlPackages.commonsense
-         perlPackages.Mojolicious
-         perlPackages.base
-         perlPackages.libxml_perl
-         perlPackages.libnet
-         perlPackages.libintl_perl
-         perlPackages.LWP
-         perlPackages.ListMoreUtilsXS
-         perlPackages.LWPProtocolHttps
-         perlPackages.DBI
-         perlPackages.DBDmysql
-         perlPackages.CGI
-         perlPackages.FilePath
-         perlPackages.DigestPerlMD5
-         perlPackages.DigestSHA1
-         perlPackages.FileBOM
-         perlPackages.GD
-         perlPackages.LocaleGettext
-         perlPackages.HashDiff
-         perlPackages.JSONXS
-         perlPackages.POSIXstrftimeCompiler
-         perlPackages.perl
-  ] ++ collect isDerivation php54Packages;
+  ]
+  ++ collect isDerivation mjperl5Packages
+  ++ collect isDerivation php54Packages;
   config = {
     Entrypoint = [ "${rootfs}/init" ];
     Env = [
