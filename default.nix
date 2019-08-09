@@ -29,6 +29,8 @@ sh = dash.overrideAttrs (_: rec {
       src = ./rootfs;
       inherit curl coreutils findutils apacheHttpdmpmITK apacheHttpd mjHttpErrorPages php54 postfix s6 execline mjperl5Packages;
       ioncube = ioncube.v54;
+      zendguard = zendguard54;
+      zendopcache = php54Packages.zendopcache;
       s6PortableUtils = s6-portable-utils;
       s6LinuxUtils = s6-linux-utils;
       mimeTypes = mime-types;
