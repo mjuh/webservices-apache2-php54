@@ -22,7 +22,7 @@ let
       mjHttpErrorPages postfix s6 execline;
     php54 = phpDeprecated.php54;
     zendguard = zendguard.loader-php54;
-    zendopcache = phpPackages.php54Packages.zendopcache;
+    zendopcache = phpDeprecatedPackages.php54Packages.zendopcache;
     mjperl5Packages = mjperl5lib;
     ioncube = ioncube.v54;
     s6PortableUtils = s6-portable-utils;
@@ -48,7 +48,7 @@ pkgs.dockerTools.buildLayeredImage rec {
     (optipng.override{ inherit libpng ;})
     gifsicle cacert
     perl
-  ] ++ collect isDerivation phpPackages.php54Packages;
+  ] ++ collect isDerivation phpDeprecatedPackages.php54Packages;
   config = {
     Entrypoint = [ "${rootfs}/init" ];
     Env = [
