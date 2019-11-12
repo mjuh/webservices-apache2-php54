@@ -19,7 +19,8 @@ let
     name = "apache2-rootfs-php54";
     src = ./rootfs;
     inherit curl coreutils findutils apacheHttpdmpmITK apacheHttpd
-      mjHttpErrorPages postfix s6 execline;
+      mjHttpErrorPages s6 execline;
+                                   postfix = sendmail;
     php54 = phpDeprecated.php54;
     zendguard = zendguard.loader-php54;
     zendopcache = phpDeprecatedPackages.php54Packages.zendopcache;
@@ -50,7 +51,7 @@ pkgs.dockerTools.buildLayeredImage rec {
     rootfs
     tzdata
     locale
-    postfix
+                                  sendmail
     sh
     coreutils
     libjpeg_turbo
