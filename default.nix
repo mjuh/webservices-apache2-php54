@@ -20,7 +20,7 @@ let
     src = ./rootfs;
     inherit curl coreutils findutils apacheHttpdmpmITK apacheHttpd
       mjHttpErrorPages s6 execline;
-                                   postfix = sendmail;
+    postfix = sendmail;
     php54 = phpDeprecated.php54;
     zendguard = zendguard.loader-php54;
     zendopcache = phpDeprecatedPackages.php54Packages.zendopcache;
@@ -42,10 +42,11 @@ pkgs.dockerTools.buildLayeredImage rec {
     rootfs
     tzdata
     locale
-                                  sendmail
+    sendmail
     sh
     coreutils
     libjpeg_turbo
+    jpegoptim
     (optipng.override{ inherit libpng ;})
     gifsicle nss-certs.unbundled zip
     perl
