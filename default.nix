@@ -1,9 +1,8 @@
 {}:
 
 with import <nixpkgs> {
-#add_postfix_test
   overlays = [
-    (import (builtins.fetchGit { url = "git@gitlab.intr:_ci/nixpkgs.git"; ref = "master"; }))
+    (import (builtins.fetchGit { url = "git@gitlab.intr:_ci/nixpkgs.git"; ref = (if builtins ? getEnv then builtins.getEnv "GIT_BRANCH" else "master"); }))
   ];
 };
 let
@@ -13,17 +12,16 @@ let
   inherit (lib.attrsets) collect isDerivation;
   inherit (stdenv) mkDerivation;
 
-  php54DockerArgHints = lib.phpDockerArgHints phpDeprecated.php54;
+  php54DockerArgHints = lib.phpDockerArgHints php54;
 
   rootfs = mkRootfs {
     name = "apache2-rootfs-php54";
     src = ./rootfs;
     inherit zlib curl coreutils findutils apacheHttpdmpmITK apacheHttpd
-      mjHttpErrorPages s6 execline;
+      mjHttpErrorPages s6 execline php54;
     postfix = sendmail;
-    php54 = phpDeprecated.php54;
     zendguard = zendguard.loader-php54;
-    zendopcache = phpDeprecatedPackages.php54Packages.zendopcache;
+    zendopcache = php54Packages.zendopcache;
     mjperl5Packages = mjperl5lib;
     ioncube = ioncube.v54;
     s6PortableUtils = s6-portable-utils;
@@ -52,9 +50,10 @@ pkgs.dockerTools.buildLayeredImage rec {
     gcc-unwrapped.lib
     glibc
     zlib
-    connectorc perl520
+    mariadbConnectorC
+    perl520
   ]
-  ++ collect isDerivation phpDeprecatedPackages.php54Packages
+  ++ collect isDerivation php54Packages
   ++ collect isDerivation mjperl5Packages;
   config = {
     Entrypoint = [ "${rootfs}/init" ];
