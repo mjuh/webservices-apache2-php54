@@ -1,8 +1,11 @@
-{ ref ? "master" }:
+{ ref ? "master", debug ? false }:
 
 with import <nixpkgs> {
   overlays = [
-    (import (builtins.fetchGit { url = "git@gitlab.intr:_ci/nixpkgs.git"; inherit ref; }))
+    (import (builtins.fetchGit {
+      url = "git@gitlab.intr:_ci/nixpkgs.git";
+      inherit ref;
+    }))
   ];
 };
 
@@ -115,4 +118,4 @@ in maketestPhp {
       command = "${testPhpMariadbConnector}";
     })
   ];
-}{}
+} { }
