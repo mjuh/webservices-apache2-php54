@@ -17,10 +17,11 @@ let
   image = callPackage ./default.nix { inherit ref; };
 
 in maketestPhp {
+  inherit image;
+  inherit debug;
   php = php54;
-  image = callPackage ./default.nix { inherit ref; };
+  inherit containerStructureTestConfig;
   rootfs = ./rootfs;
-  containerStructureTestConfig = ./tests/container-structure-test.yaml;
   defaultTestSuite = false;
   testSuite = [
     (dockerNodeTest {
@@ -87,7 +88,7 @@ in maketestPhp {
         inherit pkgs;
         sampleJson = (./tests/. + "/web34/${phpVersion}.json");
         output = "/tmp/xchg/coverage-data/deepdiff-web34-with-excludes.html";
-        excludes = import ./diff-to-skip.nix;
+        excludes = import ./tests/diff-to-skip.nix;
       };
     })
     (dockerNodeTest {
