@@ -12,7 +12,7 @@ let
   inherit (lib.attrsets) collect isDerivation;
   inherit (stdenv) mkDerivation;
 
-  php54DockerArgHints = lib.phpDockerArgHints php54;
+  php54DockerArgHints = lib.phpDockerArgHints { php = php54; };
 
   rootfs = mkRootfs {
     name = "apache2-rootfs-php54";
