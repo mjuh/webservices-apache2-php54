@@ -5,6 +5,11 @@ with import <nixpkgs> {
   overlays = [
     (import (builtins.fetchGit { url = overlayUrl; ref = overlayRef; }))
   ];
+  config = {
+    permittedInsecurePackages = [
+      "openssl-1.0.2u"
+    ];
+  };
 };
 
 let
