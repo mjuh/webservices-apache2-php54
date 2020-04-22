@@ -8,6 +8,7 @@ with import <nixpkgs> {
   config = {
     permittedInsecurePackages = [
       "openssl-1.0.2u"
+      "jasper-2.0.16"
     ];
   };
 };
