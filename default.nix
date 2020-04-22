@@ -6,6 +6,7 @@ with import <nixpkgs> {
     (import (builtins.fetchGit { url = overlayUrl; ref = overlayRef; }))
   ];
 };
+
 let
   inherit (builtins) concatMap getEnv toJSON;
   inherit (dockerTools) buildLayeredImage;
