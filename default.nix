@@ -26,7 +26,7 @@ let
     name = "apache2-rootfs-php54";
     src = ./rootfs;
     inherit zlib curl coreutils findutils apacheHttpdmpmITK apacheHttpd
-      mjHttpErrorPages s6 execline php54;
+      mjHttpErrorPages s6 execline php54 logger;
     postfix = sendmail;
     zendguard = zendguard.loader-php54;
     zendopcache = php54Packages.zendopcache;
@@ -59,6 +59,7 @@ pkgs.dockerTools.buildLayeredImage rec {
     glibc
     zlib
     mariadbConnectorC
+    logger
     perl520
   ]
   ++ collect isDerivation php54Packages
