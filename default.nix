@@ -1,17 +1,13 @@
-{ overlayUrl ? "git@gitlab.intr:_ci/nixpkgs.git"
-, overlayRef ? "master" }:
-
-with import <nixpkgs> {
+{ nixpkgs ? import <nixpkgs> {
   overlays = [
-    (import (builtins.fetchGit { url = overlayUrl; ref = overlayRef; }))
+    (import (builtins.fetchGit {
+      url = "git@gitlab.intr:_ci/nixpkgs.git";
+      ref = "master";
+    }))
   ];
-  config = {
-    permittedInsecurePackages = [
-      "openssl-1.0.2u"
-      "jasper-2.0.16"
-    ];
-  };
-};
+} }:
+
+with nixpkgs;
 
 let
   inherit (builtins) concatMap getEnv toJSON;
