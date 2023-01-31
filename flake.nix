@@ -30,6 +30,7 @@
           container = import ./default.nix { nixpkgs = majordomo.outputs.nixpkgs; };
           deploy = majordomo.outputs.deploy { tag = "webservices/apache2-php54"; };
         };
+        checks.x86_64-linux.container = import ./test.nix { nixpkgs = majordomo.outputs.nixpkgs; };
 
         defaultPackage.${system} = self.packages.${system}.container;
       });
